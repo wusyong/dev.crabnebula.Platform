@@ -1,0 +1,104 @@
+id: dev.crabnebula.Platform
+branch: '22.08'
+runtime: org.freedesktop.Platform
+sdk: org.freedesktop.Sdk
+runtime-version: '22.08'
+build-runtime: true
+separate-locales: false
+build-options:
+  strip: true
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /man
+  - /share/aclocal
+  - /share/devhelp
+  - /share/gir-1.0
+  - /share/gtk-doc
+  - /share/man
+  - /share/pkgconfig
+  - /share/vala
+  - /lib/systemd
+  - '*.la'
+  - '*.a'
+modules:
+  - name: webview
+    buildsystem: simple
+    build-commands:
+      - cp -r ./Release/* ${FLATPAK_DEST}/lib
+      - cp -r ./Resources/* ${FLATPAK_DEST}/lib
+      # - cp -r . ${FLATPAK_DEST}/lib
+    sources:
+      - type: archive
+        url: https://cef-builds.spotifycdn.com/cef_binary_113.1.5%2Bge452d82%2Bchromium-113.0.5672.93_linux64_minimal.tar.bz2
+        sha1: 3db8f310183fd2ef27655fa5507bbf458fce355b
+      # - type: dir
+      #   path: ../fec
+
+  # - shared-modules/dbus-glib/dbus-glib.json
+
+  # - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
+
+  # - name: gconf
+  #   cleanup:
+  #     - /bin
+  #     - /libexec
+  #     - /share
+  #     - /etc
+  #   config-opts:
+  #     - --disable-static
+  #     - --disable-gtk-doc
+  #     - --disable-orbit
+  #     - --disable-introspection
+  #   sources:
+  #     - type: archive
+  #       url: https://download.gnome.org/sources/GConf/3.2/GConf-3.2.6.tar.xz
+  #       sha256: 1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e0cfa51a04d784c
+
+  # - name: libnotify
+  #   buildsystem: meson
+  #   config-opts:
+  #     - -Dtests=false
+  #     - -Dintrospection=disabled
+  #     - -Dgtk_doc=false
+  #     - -Ddocbook_docs=disabled
+  #   sources:
+  #     - type: archive
+  #       url: https://download.gnome.org/sources/libnotify/0.7/libnotify-0.7.8.tar.xz
+  #       sha256: 69209e0b663776a00c7b6c0e560302a8dbf66b2551d55616304f240bba66e18c
+
+  # - name: gvfs-trash
+  #   buildsystem: simple
+  #   build-commands:
+  #     - install -m755 gvfs-trash /app/bin/gvfs-trash
+  #   sources:
+  #     - type: script
+  #       dest-filename: gvfs-trash
+  #       commands:
+  #         - exec rm -r "$@"
+
+  # - name: libgnome-keyring
+  #   config-opts:
+  #     - --disable-static
+  #     - --disable-gtk-doc
+  #     - --disable-coverage
+  #     - --disable-introspection
+  #   rm-configure: true
+  #   sources:
+  #     - type: archive
+  #       url: https://download.gnome.org/sources/libgnome-keyring/3.12/libgnome-keyring-3.12.0.tar.xz
+  #       sha256: c4c178fbb05f72acc484d22ddb0568f7532c409b0a13e06513ff54b91e947783
+  #     - type: script
+  #       commands: [autoreconf -vfi]
+  #       dest-filename: autogen.sh
+
+  # - name: zypak
+  #   sources:
+  #     - type: git
+  #       url: https://github.com/refi64/zypak
+  #       tag: v2022.04
+  #       commit: 55a60d110301e8dd37b631503c3524ab7baaf7aa
+  #       x-checker-data:
+  #         type: git
+  #         tag-pattern: ^v([\d.]+)$
+
